@@ -4,6 +4,7 @@ MAINTAINER Nebo#15 <support@nebo15.com>
 
 ENV TERM=xterm \
     HOME=/
+COPY pglogical-2.0.1.tar.bz2 /
 
 # alpine includes "postgres" user/group in base install
 #   /etc/passwd:22:postgres:x:70:70::/var/lib/postgresql:/bin/sh
@@ -126,10 +127,16 @@ RUN set -ex \
     su-exec \
 # tzdata is optional, but only adds around 1Mb to image size and is recommended by Django documentation:
 # https://docs.djangoproject.com/en/1.10/ref/databases/#optimizing-postgresql-s-configuration
-    tzdata \
-  && apk del .fetch-deps .build-deps \
-  && cd / \
-  && rm -rf \
+    tzdata \ 
+   && tar xvjf  /pglogical-2.0.1.tar.bz2  \
+   && cd pglogical-2.0.1  \
+   && make USE_PGXS=1 install \
+   && cd ..  \
+   && rm -rf pglogical-2.0.* \
+   && rm -rf /pglogical-2.0.1.tar.bz2 \
+   && apk del .fetch-deps .build-deps  \
+   && cd / \
+   && rm -rf \
     /usr/src/postgresql \
     /usr/local/share/doc \
     /usr/local/share/man \
