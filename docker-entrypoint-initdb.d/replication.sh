@@ -28,9 +28,13 @@ fi
 { echo; echo "host replication all 0.0.0.0/0 ${repl_authMethod}"; } >> "${PGDATA}/pg_hba.conf"
 
 # This will allow pghoard to backup this database
-echo "wal_level = archive" >> "${PGDATA}/postgresql.conf"
-echo "max_wal_senders = 4" >> "${PGDATA}/postgresql.conf"
-echo "max_replication_slots = 4" >> "${PGDATA}/postgresql.conf"
+echo "wal_level = 'logical'" >> "${PGDATA}/postgresql.conf"
+echo "max_worker_processes = 10" >> "${PGDATA}/postgresql.conf"
+echo "max_replication_slots = 10" >> "${PGDATA}/postgresql.conf"
+echo "max_wal_senders = 10" >> "${PGDATA}/postgresql.conf"
+echo "shared_preload_libraries = 'pglogical'" >> "${PGDATA}/postgresql.conf"
+echo "track_commit_timestamp = on" >> "${PGDATA}/postgresql.conf"
+echo "host all all 0.0.0.0/0 trust" >>  "${PGDATA}/pg_hba.conf"
 
 : ${REPLICATOR_USER:=pghoard}
 
@@ -39,3 +43,5 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 EOSQL
 
 export REPLICATOR_USER
+
+
