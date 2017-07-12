@@ -2,7 +2,7 @@
 
 PostgreSQL Docker container based on Alpine Linux and with the same API as [official container has](https://hub.docker.com/_/postgres/).
 
-Whats different?
+Whats different? 
 
   1. Added `POSTGRES_LOG_STATEMENTS` environment variable that helps with settings custom verbosity for statements log.
   2. Added `REPLICATOR_USER` (default: `phhoard`) and `REPLICATOR_PASSWORD` environment variables that will allow replication connections to a running container. (By default PostgreSQL `all` statement does not include `replication` in `pg_hba.conf`.)
