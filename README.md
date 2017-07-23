@@ -17,14 +17,20 @@ Place your restored `PGDATA` to `${PGDATA}/../restored_data` (by default: `var/l
   3. Remove `restored_data` directory.
 
 # How to create a logical replication?
-All necessary documentation can be found on [pg logical official webpage](https://www.2ndquadrant.com/en/resources/pglogical/pglogical-docs/).
-## Requretment
+All necessary documentation can be found on [pglogical official webpage](https://www.2ndquadrant.com/en/resources/pglogical/pglogical-docs/).
+## Requirements
 1. The pglogical extension must be installed on both provider and subscriber. You must CREATE EXTENSION pglogical on both.
 2. Tables on the provider and subscriber must have the same names and be in the same schema. 
-3. Tables on the provider and subscriber must have the same columns, with the same data types in each column. CHECKconstraints, NOT NULL constraints, etc must be the same or weaker (more permissive) on the subscriber than the provider.
+3. Tables on the provider and subscriber must have the same columns, with the same data types in each column. CHECK constraints, NOT NULL constraints, etc must be the same or weaker (more permissive) on the subscriber than the provider.
 
+#### There are 4 provider databases: 
+- `PRM` 
+- `MPI` 
+- `OPS` 
+- `UADDRESSES` 
+#### Subscriber database: 
+- `REPORT`
 ## How to Configure providers databases?
-We have 4 provider database (prm, mpi,ops,uaddresses) and 1 subscriber database (report).
 #### 1. To configure PRM provider database -  execute the following sql scripts:
  - Drop node if necessary:
 ```
@@ -45,8 +51,8 @@ SELECT pglogical.replication_set_add_table('default' , 'party_users' ,   'true')
 SELECT pglogical.replication_set_add_table('default' , 'legal_entities' ,   'true' , columns :=
 '{id,name,short_name,public_name,type,edrpou,addresses,phones,email,inserted_at,inserted_by,updated_at,updated_by,is_active,kveds,status,owner_property_type,legal_form,created_by_mis_client_id,nhs_verified,mis_verified}');
 ``` 
-#### 2.Configure UADDRESSES provider database -  execute the following sql scripts
-- Drop node, if necessary:
+#### 2.Configure UADDRESSES provider database -  execute the following sql scripts:
+- Drop node if necessary:
 ```
 SELECT pglogical.drop_node('provider-uaddresses');
 ```
@@ -63,7 +69,7 @@ SELECT pglogical.replication_set_add_table('default' , 'streets' ,   'true');
 SELECT pglogical.replication_set_add_table('default' , 'streets_aliases');
 ``` 
 #### 3.Configure MPI provider database -  execute the following sql scripts:
-- Drop node, if necessary:
+- Drop node if necessary:
 ```
 SELECT pglogical.drop_node('provider_mpi');
 ```
@@ -77,7 +83,7 @@ SELECT pglogical.replication_set_add_table('default' , 'persons' ,   'true' , co
 '{id,birth_date,death_date,addresses,inserted_at,updated_at}');
 ```
 #### 4.Configure OPS provider database -  execute the following sql scripts:
-- Drop node, if necessary:
+- Drop node if necessary:
 ```
 SELECT pglogical.drop_node('provider_ops');
 ```
@@ -91,7 +97,7 @@ SELECT pglogical.replication_set_add_table('default' , 'declarations' ,   'true'
 SELECT pglogical.replication_set_add_table('default' , 'declarations_status_hstr' ,   'true') ;
 ```
 ### 5. Configure REPORT subscriber database:
-- Drop node, if necessary:
+- Drop node if necessary:
 ```
 SELECT pglogical.drop_node('subscriber')
 ```
@@ -101,7 +107,7 @@ SELECT pglogical.create_node(
     node_name := 'subscriber',
     dsn := 'host=db-svc.reports.svc.cluster.local port=5432  dbname=report user=databaseuser password=databasepassword');
 ```
-- Create subscribtions 
+- Create subscribtions:
 ```
 SELECT pglogical.create_subscription(
     subscription_name := 'subscription_mpi',
@@ -143,7 +149,7 @@ SELECT * FROM pglogical.show_subscription_table('subscription_ops','declarations
 SELECT * FROM pglogical.show_subscription_table('subscription_ops','declarations_status_hstr') UNION
 SELECT * FROM pglogical.show_subscription_table('subscription_mpi','persons');
 ```
-- resynchronize tables ,if necessary .The tables will be truncated!
+- resynchronize tables if necessary. The tables will be truncated!
 ```
 #-------------------------------subscription_prm----------------------------------
 SELECT pglogical.alter_subscription_resynchronize_table('subscription_prm' , 'divisions');
