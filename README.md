@@ -46,7 +46,7 @@ SELECT pglogical.replication_set_add_table('default' , 'legal_entities' ,   'tru
 '{id,name,short_name,public_name,type,edrpou,addresses,phones,email,inserted_at,inserted_by,updated_at,updated_by,is_active,kveds,status,owner_property_type,legal_form,created_by_mis_client_id,nhs_verified,mis_verified}');
 ``` 
 #### 2.Configure UADDRESSES provider database -  execute the following sql scripts
-- Drop node if necessary:
+- Drop node, if necessary:
 ```
 SELECT pglogical.drop_node('provider-uaddresses');
 ```
@@ -63,7 +63,7 @@ SELECT pglogical.replication_set_add_table('default' , 'streets' ,   'true');
 SELECT pglogical.replication_set_add_table('default' , 'streets_aliases');
 ``` 
 #### 3.Configure MPI provider database -  execute the following sql scripts:
-- Drop node if necessary:
+- Drop node, if necessary:
 ```
 SELECT pglogical.drop_node('provider_mpi');
 ```
@@ -77,7 +77,7 @@ SELECT pglogical.replication_set_add_table('default' , 'persons' ,   'true' , co
 '{id,birth_date,death_date,addresses,inserted_at,updated_at}');
 ```
 #### 4.Configure OPS provider database -  execute the following sql scripts:
-- Drop node if necessary:
+- Drop node, if necessary:
 ```
 SELECT pglogical.drop_node('provider_ops');
 ```
@@ -91,7 +91,7 @@ SELECT pglogical.replication_set_add_table('default' , 'declarations' ,   'true'
 SELECT pglogical.replication_set_add_table('default' , 'declarations_status_hstr' ,   'true') ;
 ```
 ### 5. Configure REPORT subscriber database:
-- Drop node if necessary:
+- Drop node, if necessary:
 ```
 SELECT pglogical.drop_node('subscriber')
 ```
@@ -143,7 +143,7 @@ SELECT * FROM pglogical.show_subscription_table('subscription_ops','declarations
 SELECT * FROM pglogical.show_subscription_table('subscription_ops','declarations_status_hstr') UNION
 SELECT * FROM pglogical.show_subscription_table('subscription_mpi','persons');
 ```
-- resynchronize tables if necessery.The tables will be truncated!
+- resynchronize tables ,if necessary .The tables will be truncated!
 ```
 #-------------------------------subscription_prm----------------------------------
 SELECT pglogical.alter_subscription_resynchronize_table('subscription_prm' , 'divisions');
