@@ -51,7 +51,7 @@ SELECT pglogical.replication_set_add_table('default' , 'party_users' ,   'true')
 SELECT pglogical.replication_set_add_table('default' , 'legal_entities' ,   'true' , columns :=
 '{id,name,short_name,public_name,type,edrpou,addresses,phones,email,inserted_at,inserted_by,updated_at,updated_by,is_active,kveds,status,owner_property_type,legal_form,created_by_mis_client_id,nhs_verified,mis_verified}');
 ``` 
-#### 2.Configure UADDRESSES provider database -  execute the following sql scripts
+#### 2.Configure UADDRESSES provider database -  execute the following sql scripts:
 - Drop node, if necessary:
 ```
 SELECT pglogical.drop_node('provider-uaddresses');
@@ -107,7 +107,7 @@ SELECT pglogical.create_node(
     node_name := 'subscriber',
     dsn := 'host=db-svc.reports.svc.cluster.local port=5432  dbname=report user=databaseuser password=databasepassword');
 ```
-- Create subscribtions 
+- Create subscribtions:
 ```
 SELECT pglogical.create_subscription(
     subscription_name := 'subscription_mpi',
