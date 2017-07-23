@@ -17,7 +17,7 @@ Place your restored `PGDATA` to `${PGDATA}/../restored_data` (by default: `var/l
   3. Remove `restored_data` directory.
 
 # How to create logical replication?
-All necessary documentation can be found on pg logical official webpage  [pg logical official webpage](https://www.2ndquadrant.com/en/resources/pglogical/pglogical-docs/).
+All necessary documentation can be found on [pg logical official webpage](https://www.2ndquadrant.com/en/resources/pglogical/pglogical-docs/).
 ## Requretment
 1. The pglogical extension must be installed on both provider and subscriber. You must CREATE EXTENSION pglogical on both.
 2. Tables on the provider and subscriber must have the same names and be in the same schema. 
