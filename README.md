@@ -24,7 +24,13 @@ All necessary documentation can be found on [pg logical official webpage](https:
 3. Tables on the provider and subscriber must have the same columns, with the same data types in each column. CHECKconstraints, NOT NULL constraints, etc must be the same or weaker (more permissive) on the subscriber than the provider.
 
 ## How to Configure providers databases?
-We have 4 provider database (prm, mpi,ops,uaddresses) and 1 subscriber database (report).
+#### There are 4 provider databases: 
+- PRM 
+- MPI 
+- OPS 
+- UADDRESSES 
+#### Subscriber database: 
+- REPORT
 #### 1. To configure PRM provider database -  execute the following sql scripts:
  - Drop node if necessary:
 ```
