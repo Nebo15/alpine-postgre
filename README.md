@@ -21,16 +21,16 @@ All necessary documentation can be found on [pglogical official webpage](https:/
 ## Requirements
 1. The pglogical extension must be installed on both provider and subscriber. You must CREATE EXTENSION pglogical on both.
 2. Tables on the provider and subscriber must have the same names and be in the same schema. 
-3. Tables on the provider and subscriber must have the same columns, with the same data types in each column. CHECKconstraints, NOT NULL constraints, etc must be the same or weaker (more permissive) on the subscriber than the provider.
+3. Tables on the provider and subscriber must have the same columns, with the same data types in each column. CHECK constraints, NOT NULL constraints, etc must be the same or weaker (more permissive) on the subscriber than the provider.
 
-## How to Configure providers databases?
 #### There are 4 provider databases: 
-- PRM 
-- MPI 
-- OPS 
-- UADDRESSES 
+- `PRM` 
+- `MPI` 
+- `OPS` 
+- `UADDRESSES` 
 #### Subscriber database: 
-- REPORT
+- `REPORT`
+## How to Configure providers databases?
 #### 1. To configure PRM provider database -  execute the following sql scripts:
  - Drop node if necessary:
 ```
@@ -149,7 +149,7 @@ SELECT * FROM pglogical.show_subscription_table('subscription_ops','declarations
 SELECT * FROM pglogical.show_subscription_table('subscription_ops','declarations_status_hstr') UNION
 SELECT * FROM pglogical.show_subscription_table('subscription_mpi','persons');
 ```
-- resynchronize tables ,if necessary .The tables will be truncated!
+- resynchronize tables if necessary. The tables will be truncated!
 ```
 #-------------------------------subscription_prm----------------------------------
 SELECT pglogical.alter_subscription_resynchronize_table('subscription_prm' , 'divisions');
